@@ -25,7 +25,7 @@
 4. [дополнительно] Советы по стилю кода: https://learn.javascript.ru/coding-style
 5. [дополнительно] Ниндзя-код (или вредные советы): https://learn.javascript.ru/ninja-code
 
-### Задание на проверку
+### Задание для самопроверки
 
 Написать функцию `draw_flag(width, height)`, которая выводит на консоль флаг
 из решеток `#` с крестом из плюсов `+`. Например:
@@ -60,7 +60,7 @@ HTML-аттрибут, CSS-селекторы. Попробуйте искать
 7. Стили и классы: https://learn.javascript.ru/styles-and-classes
 8. Координаты: https://learn.javascript.ru/coordinates
 
-### Задание
+### Задание для самопроверки
 
 Дана верстка:
 ```html
@@ -91,7 +91,7 @@ HTML-аттрибут, CSS-селекторы. Попробуйте искать
 3. Делегирование событий: https://learn.javascript.ru/event-delegation
 4. Действия браузера по умолчанию: https://learn.javascript.ru/default-browser-action
 
-### Задание
+### Задание для самопроверки
 
 Дана верстка:
 ```html
@@ -112,7 +112,7 @@ HTML-аттрибут, CSS-селекторы. Попробуйте искать
 2. Движение мыши: mouseover/out, mouseenter/leave: https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave
 3. Клавиатура: keydown и keyup: https://learn.javascript.ru/keyboard-events
 
-### Задание:
+### Задание для самопроверки
 
 Сделать функцию-обработчик на документ, которая при нажатии на клавишу `H/h`
 выводила на консоль разработчка строку: `Справка для пользователя`.
@@ -128,7 +128,7 @@ HTML-аттрибут, CSS-селекторы. Попробуйте искать
 3. События: change, input, cut, copy, paste: https://learn.javascript.ru/events-change-input
 4. Отправка формы: событие и метод submit: https://learn.javascript.ru/forms-submit
 
-### Задание
+### Задание для самопроверки
 
 Дана верстка:
 
@@ -151,7 +151,7 @@ HTML-аттрибут, CSS-селекторы. Попробуйте искать
 2. Скрипты: async, defer: https://learn.javascript.ru/script-async-defer
 3. Загрузка ресурсов: onload и onerror: https://learn.javascript.ru/onload-onerror
 
-### Задание
+### Задание для самопроверки
 
 Написать функцию `load_image(src)`, которая добавляет в конец `body` документа
 картинку по адресу `src`. И если загрузка не удалась, выводит на консоль: `ошибка`.
