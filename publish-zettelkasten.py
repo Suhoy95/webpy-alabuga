@@ -1,5 +1,6 @@
 import argparse
 import os
+from os.path import join
 from pathlib import Path
 
 from markdown import markdown
@@ -25,11 +26,14 @@ def walk_on_zettelkasten(args):
             if filename.suffix != ".md":
                 continue
 
-            filepath = os.path.join(root, filename)
+            filepath = join(root, filename)
             html = transform_note(filepath, args.templates_dir)
 
-            output_filepath = os.path.join(
-                args.output_dir, filename.with_suffix(".html"))
+            if "index" in filename.name:
+                filename = filename.with_name('index')
+
+            output_filepath = join(args.output_dir,
+                                   filename.with_suffix(".html"))
             with open(output_filepath, "w", encoding="utf8") as f:
                 f.write(html)
 
