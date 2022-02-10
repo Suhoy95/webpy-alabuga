@@ -41,7 +41,7 @@ def walk_on_zettelkasten(args):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input-dir', default="zettelkasten", type=str)
-    parser.add_argument('-o', '--output-dir', default="published", type=str)
+    parser.add_argument('-o', '--output-dir', default="docs", type=str)
     parser.add_argument('-t', '--templates-dir', default="templates", type=str)
     return parser.parse_args()
 
