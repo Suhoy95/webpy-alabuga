@@ -4,7 +4,15 @@
         "Алабуга",
         "версионирования",
         "beforeunload",
+        "iframe",
+        "noframes",
+        "noscript",
+        "openpyxl",
         "otpravka",
+        "samp",
+        "tbody",
+        "tfoot",
+        "thead",
         "zettelkasten"
     ]
 }
