@@ -7,4 +7,4 @@
 5. [Формы](202202101655-js-marathon-5)
 6. [Загрузка Документа](202202101656-js-marathon-6)
 7. [Fetch и работа с Сервером](202202101657-js-marathon-7)
-
+8. [Promise, async/await](202202151313-js-marathon-8.md)
