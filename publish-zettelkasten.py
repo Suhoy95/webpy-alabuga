@@ -3,7 +3,9 @@ import os
 import shutil
 from os.path import join
 from pathlib import Path
+from turtle import ht
 
+from bs4 import BeautifulSoup
 from markdown import markdown
 
 from mako.template import Template
@@ -34,13 +36,19 @@ def walk_on_zettelkasten(args):
             filepath = join(root, filename)
             html = transform_note(filepath, args.templates_dir)
 
+            html = BeautifulSoup(html, 'html.parser')
+
+            for a in html.find_all('a'):
+                if a['href'] and a['href'].endswith('md'):
+                    a['href'] = Path(a['href']).with_suffix('.html')
+
             if "index" in filename.name:
                 filename = filename.with_name('index')
 
             output_filepath = join(args.output_dir,
                                    filename.with_suffix(".html"))
             with open(output_filepath, "w", encoding="utf8") as f:
-                f.write(html)
+                f.write(str(html))
 
 
 def parse_args():
