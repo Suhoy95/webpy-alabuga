@@ -1,5 +1,6 @@
 import argparse
 import os
+import shutil
 from os.path import join
 from pathlib import Path
 
@@ -24,6 +25,10 @@ def walk_on_zettelkasten(args):
         for filename in files:
             filename = Path(filename)
             if filename.suffix != ".md":
+                shutil.copy(
+                    join(root, filename),
+                    join(args.output_dir, filename)
+                )
                 continue
 
             filepath = join(root, filename)
