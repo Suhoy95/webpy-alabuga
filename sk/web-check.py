@@ -174,21 +174,36 @@ def download_html(src_url, dst_dir, student):
 
 def check_python():
     return [
-        ("Python", 0),
-        ("В коде есть переменные разных типов (bool, int, float, str)", 0),
-        ("В коде есть операторы ветвления (if/elif/else)", 0),
-        ("В коде есть операторы циклов (while/for)", 0),
-        ("В коде есть функции (def ...())", 0),
-        ("Вы водится таблица с 5-ю столбцами (№ Месяца, Задолженность, Мин. Платеж, Процент, Платеж в банк)", 0),
-        ("В конце выводиться кол-во месяцев", 0),
-        ("В конце выводиться кол-во заплаченных денег", 0),
-        ("В конце выводиться кол-во денег, заплаченных как проценты", 0),
-        ("Программа форматирует вывод (бонус)", 0),
-        ("Самсостоятельные, творческие решения (бонус)", 0),
+        ("Python", ""),
+        ("В коде есть переменные разных типов (bool, int, float, str)", ''),
+        ("В коде есть операторы ветвления (if/elif/else)", ''),
+        ("В коде есть операторы циклов (while/for)", ''),
+        ("В коде есть функции (def ...())", ''),
+        ("Вы водится таблица с 5-ю столбцами (№ Месяца, Задолженность, Мин. Платеж, Процент, Платеж в банк)", ''),
+        ("В конце выводиться кол-во месяцев", ''),
+        ("В конце выводиться кол-во заплаченных денег", ''),
+        ("В конце выводиться кол-во денег, заплаченных как проценты", ''),
+        ("Программа форматирует вывод (бонус)", ''),
+        ("Самсостоятельные, творческие решения (бонус)", ''),
     ]
 
 
-def check_html(bs_text):
+def check_html(url, bs_text):
+    if not url.strip():
+        return [
+            ("HTML & CSS", ""),
+            ("Полноценная структура HTML-документа", ''),
+            ("В HTML-коде присутствуют Заголовки (h1, h2, ..., h6)", ''),
+            ("В HTML-коде присутствуют Абзацы, Параграфы (p)", ''),
+            ("В HTML-коде присутствуют Изображения", ''),
+            ("В HTML-коде присутствуют Списки", ''),
+            ("В HTML-коде присутствуют Ссылки", ''),
+            ("В HTML-коде присутствуют Прочие HTML-теги (+1 за тег)", ''),
+            ("Есть CSS-правила в теге style", ''),
+            ("Подключен и используется Bootstrap", ''),
+            ("Эстетичный вид HTML-страницы", ''),
+        ]
+
     html = bs_text.find('html')
     head = html and html.find('head')
     title = head and head.find('title')
@@ -226,6 +241,14 @@ def check_html(bs_text):
 
 
 def check_web(url, bs_text):
+    if not url.strip():
+        return [
+            ("WEB", ""),
+            ("Страница выложена на GitHub pages", ''),
+            ("Все картинки на страницы загружаются", ''),
+            ("Ссылки на странице работают", ''),
+        ]
+
     img_loaded = False
     for img in bs_text.find_all('img'):
         if not img.has_attr('src'):
@@ -246,7 +269,6 @@ def check_web(url, bs_text):
             break
     else:
         img_loaded = bool(len(bs_text.find_all('img')))
-
 
     hr_works = False
     for a in bs_text.find_all('a'):
@@ -291,7 +313,7 @@ def print_results(ws, group, student, *results,):
 
 
 if __name__ == "__main__":
-    group = '113'
+    group = '111-3'
     group_html_dir = f'{group}/html'
 
     wb = Workbook()
@@ -300,7 +322,7 @@ if __name__ == "__main__":
     for (student, url) in read_student(f'{group}.txt'):
         _, bs_text = download_html(url, group_html_dir, student)
         py_results = check_python()
-        html_results = check_html(bs_text)
+        html_results = check_html(url, bs_text)
         web_results = check_web(url, bs_text)
 
         print_results(ws, group, student,
