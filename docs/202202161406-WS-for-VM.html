@@ -23,10 +23,78 @@
 <header></header>
 <main class="container">
 <h1>202202161406 подготовка VM для тестирования WorldSkills</h1>
+<h2>Настройка сервера SSH</h2>
+<blockquote>
+<p>Стоит тестировать SSH-подключение без отключения SSH-соединения.
+Так как при ошибки конфигурации вы можете потерять доступ по SSH.</p>
+</blockquote>
+<ol>
+<li>Конфигурационный файл: <code>/etc/ssh/sshd_config</code></li>
+<li>Только не забываем скопировать и проверить ssh-ключи (<code>ssh-copy-id</code>)
+<img alt="" src="2022-02-16-16-22-03.png"/>
+2.<img alt="" src="2022-02-16-16-34-37.png"/></li>
+<li><code>systemctl reload sshd</code></li>
+<li>После того, как перепроверим, что всё работает сменим TCP-порт
+<img alt="" src="2022-02-16-16-39-22.png"/></li>
+</ol>
+<h3>Настройка сообщения входа</h3>
+<ol>
+<li><code>/etc/motd</code>
+<img alt="" src="2022-02-16-16-54-48.png"/></li>
+<li>Установка <code>fortune</code></li>
+<li><code>apt install fortune-mod fortunes-ru fortunes</code></li>
+<li><code>echo "/usr/games/fortune" &gt;&gt; /etc/bash.bashrc</code></li>
+<li><img alt="" src="2022-02-16-17-00-47.png"/></li>
+</ol>
+<h2>Генерация списка студентов и паролей</h2>
+<p><code>bash
+for i in `seq 1 24`; do
+    echo "std${i}";
+    (tr -dc A-Za-z0-9 &lt;/dev/urandom | head -c 13 ; echo '') &gt; "std${i}_password".txt
+done &gt; students.txt
+head students.txt
+std1
+std2
+std3
+std4
+std5
+std6
+std7
+std8
+std9
+std10</code></p>
 <h2>Создание Пользователей для Участников WS</h2>
+<p><code>bash
+for i in `seq 1 24`; do
+/usr/sbin/useradd -m "std${i}"
+cat "std${i}_password".txt "std${i}_password".txt | passwd "std${i}"
+done</code></p>
 <h2>Установка и настройка nginx</h2>
+<p><code>bash
+apt-get install nginx
+systemctl status nginx</code></p>
+<p><img alt="" src="2022-02-16-14-46-12.png"/></p>
 <h3>TODO: Настройка nginx для Module1 (Django/Python)</h3>
 <h3>Настройка nginx для Module2 (HTML/JS)</h3>
+<p><code>``bash
+echo "" &gt; /etc/nginx/sites-enabled/jan.ws.conf
+for i in</code>seq 1 24`; do
+cat &gt;&gt; /etc/nginx/sites-enabled/jan.ws.conf &lt;&lt;HERE
+server {
+       listen 80;
+       listen [::]:80;
+       server_name std${i}.gramend.ru;</p>
+<pre><code>   root /home/std${i}/jan/module1;
+   index index.html;
+
+   location / {
+           try_files \$uri \$uri/ =404;
+   }
+</code></pre>
+<p>}
+HERE
+done
+```</p>
 </main>
 <footer></footer>
 <script crossorigin="anonymous" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
