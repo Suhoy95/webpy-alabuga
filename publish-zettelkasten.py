@@ -39,7 +39,14 @@ def walk_on_zettelkasten(args):
             html = BeautifulSoup(html, 'html.parser')
 
             for a in html.find_all('a'):
-                if a['href'] and a['href'].endswith('md'):
+                if a['href'] and \
+                   a['href'].startswith('http'):
+                   a['target'] = "_blank"
+                   a['rel'] = "noopener noreferrer nofollow"
+
+                if a['href'] and \
+                   not a['href'].startswith('http') and \
+                   a['href'].endswith('md'):
                     a['href'] = Path(a['href']).with_suffix('.html')
 
             if "index" in filename.name:
