@@ -92,7 +92,7 @@ server {
         listen 80;
         listen [::]:80;
         server_name std${i}.gramend.ru;</p>
-<pre><code>    root /home/std${i}/jan/module1;
+<pre><code>    root /home/std${i}/jan/module2;
     index index.html index.htm index;
 
     location /.well-known/ {
@@ -113,10 +113,10 @@ done
 nginx -t # Проверяем что файл конфигурации ОК
 systemctl reload nginx # Перезагрузка конфигурации</p>
 <p>for i in <code>seq 0 25</code>; do
-    mkdir -p "/home/std${i}/jan/module1/"
-    echo "<h1>Hello, std${i}" &gt; "/home/std${i}/jan/module1/index.html"
+    mkdir -p "/home/std${i}/jan/module2/"
+    echo "<h1>Hello, std${i}</h1>" &gt; "/home/std${i}/jan/module2/index.html"
 done
-```</h1></p>
+```</p>
 <ol>
 <li>Выборочно проверяем:</li>
 </ol>
@@ -181,7 +181,7 @@ ssl_certificate_key /etc/letsencrypt/live/alabuga.gramend.ru/privkey.pem;
 include             /etc/letsencrypt/options-ssl-nginx.conf;
 ssl_dhparam         /etc/letsencrypt/ssl-dhparams.pem;
 
-root /home/std${i}/jan/module1;
+root /home/std${i}/jan/module2;
 index index.html index.htm index;
 
 if (\$scheme != "https") {
@@ -239,7 +239,7 @@ ssl_certificate_key /etc/letsencrypt/live/alabuga.gramend.ru/privkey.pem;
 include             /etc/letsencrypt/options-ssl-nginx.conf;
 ssl_dhparam         /etc/letsencrypt/ssl-dhparams.pem;
 
-root /home/std${i}/jan/module1;
+root /home/std${i}/jan/module2;
 index index.html index.htm index;
 
 if (\$scheme != "https") {
