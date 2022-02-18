@@ -23,6 +23,12 @@
 <header></header>
 <main class="container">
 <h1>202202161406 подготовка VM для тестирования WorldSkills</h1>
+<div class="alert alert-warning h1 text-center">
+    К сожалению Python Markdown транслятор плохо транслирует многострочный код,
+    <a href="https://github.com/Suhoy95/webpy-alabuga/blob/main/zettelkasten/202202161406-WS-for-VM.md" rel="noopener noreferrer nofollow" target="_blank">
+        Поэтому стоит читать эту страницу на GitHub
+    </a>
+</div>
 <h2>Настройка сервера SSH</h2>
 <blockquote>
 <p>Стоит тестировать SSH-подключение без отключения SSH-соединения.
@@ -48,7 +54,7 @@
 </ol>
 <h2>Генерация списка студентов и паролей</h2>
 <p><code>bash
-for i in `seq 1 24`; do
+for i in `seq 0 25`; do
     echo "std${i}";
     (tr -dc A-Za-z0-9 &lt;/dev/urandom | head -c 13 ; echo '') &gt; "std${i}_password".txt
 done &gt; students.txt
@@ -65,7 +71,7 @@ std9
 std10</code></p>
 <h2>Создание Пользователей для Участников WS</h2>
 <p><code>bash
-for i in `seq 1 24`; do
+for i in `seq 0 25`; do
 /usr/sbin/useradd -m "std${i}"
 cat "std${i}_password".txt "std${i}_password".txt | passwd "std${i}"
 done</code></p>
@@ -74,27 +80,206 @@ done</code></p>
 apt-get install nginx
 systemctl status nginx</code></p>
 <p><img alt="" src="2022-02-16-14-46-12.png"/></p>
-<h3>TODO: Настройка nginx для Module1 (Django/Python)</h3>
 <h3>Настройка nginx для Module2 (HTML/JS)</h3>
+<ol>
+<li>Сгенерируем базовый конфиг:</li>
+</ol>
 <p><code>``bash
 echo "" &gt; /etc/nginx/sites-enabled/jan.ws.conf
-for i in</code>seq 1 24`; do
+for i in</code>seq 0 25`; do
 cat &gt;&gt; /etc/nginx/sites-enabled/jan.ws.conf &lt;&lt;HERE
 server {
-       listen 80;
-       listen [::]:80;
-       server_name std${i}.gramend.ru;</p>
-<pre><code>   root /home/std${i}/jan/module1;
-   index index.html;
+        listen 80;
+        listen [::]:80;
+        server_name std${i}.gramend.ru;</p>
+<pre><code>    root /home/std${i}/jan/module1;
+    index index.html index.htm index;
 
-   location / {
-           try_files \$uri \$uri/ =404;
-   }
+    location /.well-known/ {
+        root /var/www/acme/;
+        try_files \$uri \$uri/ =404;
+    }
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+</code></pre>
+<p>}
+HERE
+done
+```
+2. Проверим, что nginx работает как нужно:</p>
+<p>```
+nginx -t # Проверяем что файл конфигурации ОК
+systemctl reload nginx # Перезагрузка конфигурации</p>
+<p>for i in <code>seq 0 25</code>; do
+    mkdir -p "/home/std${i}/jan/module1/"
+    echo "<h1>Hello, std${i}" &gt; "/home/std${i}/jan/module1/index.html"
+done
+```</h1></p>
+<ol>
+<li>Выборочно проверяем:</li>
+</ol>
+<p><img alt="" src="2022-02-18-10-40-06.png"/>
+<img alt="" src="2022-02-18-10-40-26.png"/>
+<img alt="" src="2022-02-18-10-40-47.png"/></p>
+<h3>Настройка HTTPS</h3>
+<ol>
+<li>Не забываем добавить к <code>/etc/nginx/sites-enabled/default</code>, чтобы пока не настроенная <code>alabuga.gramend.ru</code> тоже прошла WEB-root аутентификацию:
+<img alt="" src="2022-02-18-10-57-08.png"/></li>
+<li>Будем устанавливать бесплатные HTTPS-сертификаты let's Encrypt, с этим нам поможет <a href="https://certbot.eff.org/" rel="noopener noreferrer nofollow" target="_blank">https://certbot.eff.org/</a></li>
+<li><code>apt-get install certbot</code>
+3.</li>
+</ol>
+<p><code>bash
+certbot certonly --dry-run \
+                 --nginx \
+                 -w /var/www/acme/ \
+                 --expand -d alabuga.gramend.ru \
+                          -d std0.gramend.ru \
+                          -d std1.gramend.ru \
+                          -d std2.gramend.ru \
+                          -d std3.gramend.ru \
+                          -d std4.gramend.ru \
+                          -d std5.gramend.ru \
+                          -d std6.gramend.ru \
+                          -d std7.gramend.ru \
+                          -d std8.gramend.ru \
+                          -d std9.gramend.ru \
+                          -d std10.gramend.ru \
+                          -d std11.gramend.ru \
+                          -d std12.gramend.ru \
+                          -d std13.gramend.ru \
+                          -d std14.gramend.ru \
+                          -d std15.gramend.ru \
+                          -d std16.gramend.ru \
+                          -d std17.gramend.ru \
+                          -d std18.gramend.ru \
+                          -d std19.gramend.ru \
+                          -d std20.gramend.ru \
+                          -d std21.gramend.ru \
+                          -d std22.gramend.ru \
+                          -d std23.gramend.ru \
+                          -d std24.gramend.ru \
+                          -d std25.gramend.ru</code>
+4. Успех:
+<img alt="" src="2022-02-18-10-58-16.png"/>
+5. Теперь можем выпустить SSL-сертификаты, запустив верхнюю команду без <code>--dry-run</code>
+6. Отлично, теперь у нас есть сертификат на все сайты:
+<img alt="" src="2022-02-18-11-01-00.png"/>
+7. Теперь, переделываем конфигурацию на HTTPS-only:</p>
+<p><code>``bash
+echo "" &gt; /etc/nginx/sites-enabled/jan.ws.conf
+for i in</code>seq 0 25`; do
+cat &gt;&gt; /etc/nginx/sites-enabled/jan.ws.conf &lt;&lt;HERE
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name std${i}.gramend.ru;</p>
+<pre><code>ssl_certificate     /etc/letsencrypt/live/alabuga.gramend.ru/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/alabuga.gramend.ru/privkey.pem;
+include             /etc/letsencrypt/options-ssl-nginx.conf;
+ssl_dhparam         /etc/letsencrypt/ssl-dhparams.pem;
+
+root /home/std${i}/jan/module1;
+index index.html index.htm index;
+
+if (\$scheme != "https") {
+    return 301 https://\$host\$request_uri;
+}
+
+location /.well-known/ {
+    root /var/www/acme/;
+    try_files \$uri \$uri/ =404;
+}
+
+location / {
+    try_files \$uri \$uri/ =404;
+}
+</code></pre>
+<p>}
+HERE
+done
+```
+8. Работает:</p>
+<p><img alt="" src="2022-02-18-11-14-07.png"/></p>
+<h3>Аутентификация HTTPS по паролю, чтобы студенты не подглядывали друг у друга</h3>
+<blockquote>
+<p>Примечание: Никто не мешает студентам обменятся паролями и дать друг другу доступ,
+но в этом случае, ответственность за списывание будет на обоих. И штраф будет
+распространятся на обоих. Поэтому способные студенты заинтересованы, чтобы
+их работа не "утекала" к одногруппникам.</p>
+</blockquote>
+<p><a href="https://docs.nginx.com/nginx/admin-guide/security-controls/configuring-http-basic-authentication/" rel="noopener noreferrer nofollow" target="_blank">Гайд: Restricting Access with HTTP Basic Authentication</a></p>
+<ol>
+<li><code>apt install apache2-utils</code></li>
+<li>Генерируем <code>.htpasswd</code> для каждого студента :</li>
+</ol>
+<p><code>bash
+mkdir -p auth
+for i in `seq 0 25`; do
+    cat "std${i}_password".txt | htpasswd -ci "auth/std${i}.htpasswd" "std${i}"
+done</code></p>
+<ol>
+<li>Обновляем nginx-конфигурацию:</li>
+</ol>
+<p><code>``bash
+echo "" &gt; /etc/nginx/sites-enabled/jan.ws.conf
+for i in</code>seq 0 25`; do
+cat &gt;&gt; /etc/nginx/sites-enabled/jan.ws.conf &lt;&lt;HERE
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name std${i}.gramend.ru;</p>
+<pre><code>auth_basic           "std${i}’s Area";
+auth_basic_user_file /auth/std${i}.htpasswd;
+
+ssl_certificate     /etc/letsencrypt/live/alabuga.gramend.ru/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/alabuga.gramend.ru/privkey.pem;
+include             /etc/letsencrypt/options-ssl-nginx.conf;
+ssl_dhparam         /etc/letsencrypt/ssl-dhparams.pem;
+
+root /home/std${i}/jan/module1;
+index index.html index.htm index;
+
+if (\$scheme != "https") {
+    return 301 https://\$host\$request_uri;
+}
+
+location /.well-known/ {
+    root /var/www/acme/;
+    try_files \$uri \$uri/ =404;
+}
+
+location / {
+    try_files \$uri \$uri/ =404;
+}
 </code></pre>
 <p>}
 HERE
 done
 ```</p>
+<ol>
+<li>Перезагружаем nginx, проверяем:</li>
+</ol>
+<p><img alt="" src="2022-02-18-11-48-28.png"/></p>
+<ol>
+<li>При проверке, пришлось переместить директорию с паролями, потому что nginx не мог открыть файлы в папке root:</li>
+</ol>
+<p>```
+cat /var/log/nginx/error.log</p>
+<blockquote>
+<p>2022/02/18 11:54:29 [crit] 10456#10456: *984 open() "/root/std/auth/std0.htpasswd" failed (13: Permission denied), client: 31.173.165.58, server: std0.gramend.ru, request: "GET / HTTP/1.1", host: "std0.gramend.ru"</p>
+</blockquote>
+<p>apt-get install sudo
+sudo -u www-data cat auth/std0.htpasswd # так работает
+sudo -u www-data cat /root/std/auth/std0.htpasswd # А так нет, кто бы мог подумать?
+chown -R www-data:www-data auth/
+chmod -R o-gr auth/
+mv auth /auth</p>
+<h1>+ пересоздать конфиг с новыми путями</h1>
+<p>```</p>
+<h3>TODO: Настройка nginx для Module1 (Django/Python)</h3>
 </main>
 <footer></footer>
 <script crossorigin="anonymous" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
