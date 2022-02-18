@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>WEB/Python</title>
+<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet"/>
+<style>
+        /* Заглушка,, чтобы больше скриншоты не вылезали за границы контейнера */
+        img {
+            display: block;
+            max-width: 100%;
+            margin: 10px auto 10px;
+            border: green solid 3px;
+            border-radius: 5px;
+        }
+        body {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<header></header>
+<main class="container">
+<h1>202202190038 Передача информации о выбранной карте в форму Модального окна входа</h1>
+<p>Второй этап реализации <a href="202202181645-login-form-m2-ws.html">формы входа</a>,
+<a href="202202150946-WS-module-2.html">второго модуля по WorldSkills КОД 1.3</a>.</p>
+<p>На предыдущем шаге мы разобрались с <a href="202202151358-modal-window-wth-Bootstrap.html">открытием Модального окна в bootstrap</a>, теперь пора проинициализировать
+эту форму в соответствии с тем, на какую карту нажал пользователь.</p>
+<h2>Идея</h2>
+<p>На самом деле, вся информация о картах, хранится в JSON-массиве, который
+приходит к нам с сервера. Если бы мы хранили его в виде, какой-то переменной,
+то при генерации списка карт мы могли бы вызывать функцию инициализации модального
+окна, в которую просто передадим индекс карты в этом массиве.</p>
+<h2>Реализация</h2>
+<ol>
+<li>
+<p>Объявим переменную для списка карт. Обратите внимание, все более-менее
+глобальные переменные мы объявляем сверху в одном месте. В этом даже есть
+какой-то тайный смысл:
+<img alt="" src="2022-02-19-00-53-34.png"/></p>
+</li>
+<li>
+<p>Перепишем загрузку карт на <code>async/await</code>, а также проинициализируем нашу
+переменную загруженным списком карт:</p>
+</li>
+</ol>
+<p><img alt="" src="2022-02-19-00-58-09.png"/></p>
+<ol>
+<li>Проверим, что теперь массив списка карт доступен в консоли:</li>
+</ol>
+<p><img alt="" src="2022-02-19-00-58-57.png"/></p>
+<ol>
+<li>Теперь напишем функцию, которая будет принимать индекс в этом массиве
+и инициализирует форму входа:</li>
+</ol>
+<p><img alt="" src="2022-02-19-01-08-43.png"/></p>
+<ol>
+<li>
+<p>Как мы можем заметить по функции, мы делаем две вещи:</p>
+<ol>
+<li>Подставляем в значок имя карты. (<strong>Если бы в форме было больше одного <code>.badge</code>, пришлось бы придумывать или назначать какой-нибудь свой селектор</strong>).</li>
+<li>Сохраняем <code>mapIndex</code> в <code>input</code>-е формы. Для этого его нужно прописать в форме, а чтобы он не был виден, в HTML есть специальный <code>type=hidden</code>: <img alt="" src="2022-02-19-01-12-03.png"/></li>
+</ol>
+</li>
+<li>
+<p>Теперь зайдем в браузер, откроем модальное окно. И по-вызываем нашу функцию,
+убедившись, что значок и значение в форме действительно меняются:</p>
+</li>
+</ol>
+<p><img alt="" src="2022-02-19-01-14-16.png"/>
+<img alt="" src="2022-02-19-01-14-46.png"/></p>
+<ol>
+<li>Отлично, теперь осталось изменить обработку клика на карточку с картой:</li>
+</ol>
+<p><img alt="" src="2022-02-19-01-16-27.png"/></p>
+<ol>
+<li>
+<p>На удивление, все будет сразу работать, если мы использовали метод <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map" rel="noopener noreferrer nofollow" target="_blank"><code>.map</code></a>, ведь он как раз передает
+индекс элемента вторым аргументом.</p>
+</li>
+<li>
+<p>Последним моментом, было бы неплохо, делать так, чтобы пользователь сразу
+мог приступать к вводу имени, для этого на <code>input</code> потребуется активировать фокус.
+К сожалению, пока модальное окно не показалось нативное использование <a href="https://learn.javascript.ru/focus-blur" rel="noopener noreferrer nofollow" target="_blank"><code>focus/blur</code></a> не работает. Придется, воспользоваться советом с сайта <a href="https://getbootstrap.com/docs/4.0/components/modal/" rel="noopener noreferrer nofollow" target="_blank">Bootstrap Modal</a>, а для этого также придется подключить <a href="https://cdnjs.com/libraries/jquery" rel="noopener noreferrer nofollow" target="_blank">jQuery с CDN</a>:</p>
+</li>
+</ol>
+<p><img alt="" src="2022-02-19-01-31-48.png"/>
+<img alt="" src="2022-02-19-01-32-11.png"/></p>
+<h2>Следующие шаги</h2>
+<p>Теперь, обработаем ввод формы, <a href="202202190137-login-form-validation.html">убедившись что имя пользователя введено корректно</a>.</p>
+</main>
+<footer></footer>
+<script crossorigin="anonymous" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
