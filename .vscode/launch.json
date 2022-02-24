@@ -12,12 +12,20 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: run current file",
+            "name": "Python: run webpy-check file",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/sk/"
+        },
+        {
+            "name": "Python: run generate options",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/ws/generate.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/ws/"
         },
     ]
 }
