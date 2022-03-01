@@ -154,9 +154,10 @@ FIGURES = {
     ),
 }
 
-FIGURES_SETS = [ FIGURES - {figure,} for figure in FIGURES ]
+FIGURES_SETS = [FIGURES - {figure, } for figure in FIGURES]
 
 SPEED = list({1, 1.5, 2, 2.5, 3})
+
 
 def generate_module_2_options():
     for (std_num, (direction, figures_set)) in enumerate(list(product(DIRECTIONS, FIGURES_SETS))):
@@ -167,14 +168,14 @@ def generate_module_2_options():
             'speed': choice(SPEED),
             "direction_label": DIRECTION_LABELS[direction],
             "arrow_labels": ARROW_LABELS[direction],
-            "new_figure_side_label":NEW_FIGURE_SIDE_LABEL[direction],
+            "new_figure_side_label": NEW_FIGURE_SIDE_LABEL[direction],
             "std_num": std_num,
             "student_name": STUDENTS.get(str(std_num), f"std{std_num}"),
             "color": choice(COLORS),
         }
 
 
-def generate_module_2_task(option:dict, output_dir:str, std_num:int):
+def generate_module_2_task(option: dict, output_dir: str, std_num: int):
     lookup = TemplateLookup(directories=["."])
 
     std_output_dir = join(output_dir, f"std{std_num}")
@@ -198,7 +199,6 @@ def generate_module_2_task(option:dict, output_dir:str, std_num:int):
         json.dump(dict(**option),
                   f,
                   indent=4)
-
 
 
 if __name__ == "__main__":
