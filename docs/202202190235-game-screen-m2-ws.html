@@ -22,7 +22,30 @@
 <body>
 <header></header>
 <main class="container">
-<h1>202202190235 TODO:</h1>
+<h1>202202190235 Реализация <code>Экрана Игры</code></h1>
+<h2>Цель</h2>
+<p>Настало время заняться самым важным во <code>Втором модуле</code> - реализация логики игры.</p>
+<p>Весь код любой игры, очень грубо и абстрактно можно было бы описать следующим видом:</p>
+<p><img alt="" src="2022-03-01-13-30-23.png"/></p>
+<p>Где:</p>
+<ol>
+<li><code>update_game()</code> - код, который обрабатывает сигналы от пользователя,
+а также обновляет игровые события (в нашем случае: движение монстров,
+генерация монстров и ловушек, обработка столкновений)</li>
+<li><code>display_game()</code> - код, который возьмет Модель игры, и покажет её пользователю. Важно отметить, что <strong>логику игры и механику, мы в целом могли бы писать и без внешнего вида</strong>. Другое дело, что играть в то, что не видно особо не получится, а вот программировать и делить код и задачи так легче ;).</li>
+</ol>
+<p>В случае Браузера и JavaScript дела обстоят чуть интереснее: весь JS и так обрабатывается в <a href="https://learn.javascript.ru/event-loop" rel="noopener noreferrer nofollow" target="_blank">Бесконечном событийном цикле</a>, нам остается к началу игры правильно проинициализировать значения и назначить функции которые будут обрабатывать события от Пользователя. А периодически создавать монстров каждые <code>N</code>-секунд мы можем с помощью <a href="https://learn.javascript.ru/settimeout-setinterval" rel="noopener noreferrer nofollow" target="_blank">setTimeout и setInterval</a>.</p>
+<h2>Шаги</h2>
+<ol>
+<li><a href="202203011636-model-game-m2-ws.html">Модель/Состояние Игры</a></li>
+<li><a href="202203011637-game-init-m2-ws.html">Инициализация Состояния Игры</a></li>
+<li><a href="202203011642-player-move-m2-ws.html">Движение Игрока</a></li>
+<li><a href="202203011644-end-game-m2-ws.html">Завершение игры при выходе через правую границу карты</a></li>
+<li><a href="202203011645-trap-generation-m2-ws.html">Генерация Ловушек</a></li>
+<li><a href="202203011649-collision-with-monster-m2-ws.html">Столкновение с Ловушками</a></li>
+<li><a href="202203011648-monster-generation-m2-ws.html">Генерация Монстров и Столкновение с Монстрами</a></li>
+<li><a href="202203011653-pause-screen-m2-ws.html">Постановка Игры на Паузу</a></li>
+</ol>
 </main>
 <footer></footer>
 <script crossorigin="anonymous" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
