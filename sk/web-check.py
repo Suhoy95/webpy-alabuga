@@ -260,13 +260,16 @@ def check_web(url, bs_text):
         if img['src'].startswith('data:'):
             continue
 
-        if img['src'].startswith('http'):
-            res = requests.get(img['src'])
-        else:
-            res = requests.get(f'{url}/{img["src"]}')
-        if res.status_code != 200:
-            img_loaded = False
-            break
+        try:
+            if img['src'].startswith('http'):
+                    res = requests.get(img['src'], timeout=1)
+            else:
+                res = requests.get(f'{url}/{img["src"]}', timeout=1)
+            if res.status_code != 200:
+                img_loaded = False
+                break
+        except Exception as e:
+            print(e)
     else:
         img_loaded = bool(len(bs_text.find_all('img')))
 
@@ -277,13 +280,17 @@ def check_web(url, bs_text):
             break
 
         a['href'] = a['href'].strip()
-        if a['href'].startswith('http'):
-            res = requests.get(a['href'])
-        else:
-            res = requests.get(f'{url}/{a["href"]}')
-        if res.status_code != 200:
-            hr_works = False
-            break
+        try:
+            if a['href'].startswith('http'):
+                res = requests.get(a['href'], timeout=1)
+            else:
+                res = requests.get(f'{url}/{a["href"]}', timeout=1)
+            if res.status_code != 200:
+                hr_works = False
+                break
+        except Exception as e:
+            print(e)
+
     else:
         hr_works = bool(len(bs_text.find_all('a')))
 
@@ -305,7 +312,9 @@ def print_results(ws, group, student, *results,):
         for i in range(len(results)):
             ws[f'A{i+3}'] = results[i][0]
     COLUMN += 1
-    c = chr(ord("B") + COLUMN)
+    c = chr(ord("A") + COLUMN)
+    if ord(c) > ord("Z"):
+        return
     ws[f'{c}1'] = group
     ws[f'{c}2'] = student
     for i in range(len(results)):
@@ -313,7 +322,7 @@ def print_results(ws, group, student, *results,):
 
 
 if __name__ == "__main__":
-    group = '111-3'
+    group = '115-2'
     group_html_dir = f'{group}/html'
 
     wb = Workbook()
