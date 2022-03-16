@@ -3,7 +3,7 @@ from itertools import product
 from random import choice
 from os.path import join
 from pathlib import Path
-from shutil import make_archive
+from shutil import make_archive, copytree, copy, rmtree
 
 from mako.lookup import TemplateLookup
 
@@ -448,8 +448,15 @@ def generate_march_task(option, output_dir):
     Path(m2_output_dir).mkdir(exist_ok=True, parents=True)
     generate_task(option, m2_output_dir, [
         "mar_task_2.md",
+        "mar2index.html",
+        "mar2game.html",
+        "mar2results.html",
     ])
 
+    maps_path = join(m2_output_dir, "maps")
+    rmtree(maps_path, ignore_errors=True)
+    copytree("mar_maps", maps_path)
+    copy("mar_maps.json", join(m2_output_dir, "maps.json"))
     make_archive(
         join(output_dir, f"std{option['std_num']}"),
         'zip',

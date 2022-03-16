@@ -1,0 +1,35 @@
+[
+    {
+        "src": "maps/flat1.jpg",
+        "title": "Комната в элитном общежитии"
+    },
+    {
+        "src": "maps/flat2.jpg",
+        "title": "Комната в японском общежитии"
+    },
+    {
+        "src": "maps/flat3.jpg",
+        "title": "Комната в пент-хаусе"
+    },
+    {
+        "src": "maps/flat4.webp",
+        "title": "Квартира в Исландии"
+    },
+
+    {
+        "src": "maps/flat5.jpg",
+        "title": "Квартира в Недерландах"
+    },
+    {
+        "src": "maps/flat6.png",
+        "title": "Квартира на бумаге"
+    },
+    {
+        "src": "maps/flat7.jpg",
+        "title": "Квартира от художника"
+    },
+    {
+        "src": "maps/flat8.webp",
+        "title": "Квартира в Испании с балконом"
+    }
+]

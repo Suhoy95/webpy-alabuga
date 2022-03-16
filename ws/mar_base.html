@@ -24,9 +24,10 @@
 <body>
     <header class="custom-border-bottom container py-3 d-flex flex-wrap align-items-center justify-content-center">
         <div class=" custom-logo col col-md-3 h1 text-center">
-            <a href="/">Bug-tracker</a>
+            <a href="/"><%block name="logo">Bug-tracker</%block></a>
         </div>
 
+        <%block name="nav">
         <nav class="col col-md-9 text-end">
             <span class="btn btn-outline-primary">Никнейм пользователя</span>
             <a class="btn btn-success me-2">Создать Bug-Обсуждение</a>
@@ -34,6 +35,7 @@
             <a class="btn btn-primary me-2">Зарегистрироваться</a>
             <a class="btn btn-danger me-2">Выйти</a>
         </nav>
+        </%block>
     </header>
 
     <main class="container p-3">
