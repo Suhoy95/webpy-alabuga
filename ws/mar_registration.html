@@ -1,0 +1,36 @@
+<%inherit file="mar_base.html" />
+
+<%block name="title">
+    Регистрация - Bug-Трекер (${parent.title()})
+</%block>
+
+<%block name="main">
+<div class="text-center">
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">
+                Никнейм <input name="username" type="text" class="form-control" required>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">
+                Email <input name="email" type="email" class="form-control" required>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">
+                Пароль <input name="password" type="password" class="form-control" required>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">
+                Повторите пароль <input name="repeat_password" type="password" class="form-control" required>
+            </label>
+        </div>
+
+        <div class="mb-3">
+            <button class="btn btn-success" type="submit">Зарегистрироваться</button>
+        </div>
+    </form>
+</div>
+</%block>

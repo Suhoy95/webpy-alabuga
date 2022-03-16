@@ -36,7 +36,7 @@ STUDENTS = {
     "24": "Крупоткин Сигурд",
 }
 
-COLORS = [
+COLORS ={
     "AliceBlue",
     "Chocolate",
     "Chartreuse",
@@ -66,7 +66,7 @@ COLORS = [
     "Peru",
     "Plum",
     "Salmon",
-]
+}
 
 # 2 модуль Февраля - Тетрис
 
@@ -235,7 +235,6 @@ FUTURES = [
     "Безнадёжно — это когда на крышку гроба падает земля. Остальное можно исправить.",
     "Умереть за любовь не сложно. Сложно найти любовь, за которую стоит умереть.",
     "Не существует добрых, плохих, хороших.",
-    "Каждый человек, появляющийся в нашей жизни – учитель! Кто-то учит нас быть сильнее, кто-то – мудрее, кто-то учит прощать, кто-то – быть счастливым и радоваться каждому дню. Кто-то вовсе нас не учит – просто ломает нас, но и от этого мы получаем опыт. Цени каждого человека, даже если он появился на мгновение. Ведь если он появился, то это уже неспроста!",
     "Это как-то очень по-русски — поставить себя в затруднительное положение, а потом из него выбираться.",
     "Если что то у тебя болит, молчи ! Иначе ударят именно туда.",
     "Никогда не отказывайся от того, что заставляет тебя улыбаться.",
@@ -389,11 +388,78 @@ def generate_module_2_task(option: dict, output_dir: str, std_num: int):
                   indent=4)
 
 
+def choice_set(s:set):
+    return choice(list(s))
+
+
+def generate_task(option, path, files):
+    lookup = TemplateLookup(directories=["."])
+    for template_file in files:
+        with open(join(path, template_file[4:]), "w", encoding="utf8") as f:
+            template = lookup.get_template(template_file)
+            f.write(template.render(**option))
+
+
+def generate_march_options():
+    for i in STUDENTS:
+        color_1 = choice_set(COLORS)
+        color_2 = choice_set(COLORS - {color_1})
+        color_3 = choice_set(COLORS - {color_1, color_2})
+        yield {
+            "std_num": i,
+            "student_name": STUDENTS[i],
+            "domain": f"std{i}.gramend.ru",
+            "color_1": color_1,
+            "color_2": color_2,
+            "color_3": color_3,
+            "m1_charnum": choice([100, 120, 140, 160, 180, 200]),
+            "m1_register_path": choice(["/register/", "/signup/", "/user/new/"]),
+            "m1_auth_path": choice(["/login/", "/signin/", "/user/login/"]),
+            "m1_create_path": choice(["/new/", "/bug/add/", "/bug/new/"]),
+            "m1_show_path": "/bug/{id}/",
+        }
+
+
+def generate_march_task(option, output_dir):
+    std_output_dir = join(output_dir, f"std{option['std_num']}")
+
+    Path(std_output_dir).mkdir(exist_ok=True, parents=True)
+
+    json_filepath = join(std_output_dir, "options.json")
+    with open(json_filepath, "w", encoding="utf8") as f:
+        json.dump(dict(**option),
+                  f,
+                  indent=4)
+
+    # Module 1
+    m1_output_dir = join(std_output_dir, f"module1")
+    Path(m1_output_dir).mkdir(exist_ok=True, parents=True)
+    generate_task(option, m1_output_dir, [
+        "mar_task_1.md",
+        "mar_index.html",
+        "mar_login.html",
+        "mar_registration.html",
+        "mar_new.html",
+        "mar_bug.html",
+    ])
+
+    # Module 2
+    m2_output_dir = join(std_output_dir, f"module2")
+    Path(m2_output_dir).mkdir(exist_ok=True, parents=True)
+    generate_task(option, m2_output_dir, [
+        "mar_task_2.md",
+    ])
+
+
 if __name__ == "__main__":
-    output_dir = join("feb", "module1")
-    for (i, option) in enumerate(generate_module_1_options()):
-        generate_module_1_task(option, output_dir, i)
+    # output_dir = join("feb", "module1")
+    # for (i, option) in enumerate(generate_module_1_options()):
+    #     generate_module_1_task(option, output_dir, i)
 
     # output_dir = join("feb", "module2")
     # for (i, option) in enumerate(generate_module_2_options()):
     #     generate_module_2_task(option, output_dir, i)
+
+    output_dir = "march"
+    for option in generate_march_options():
+        generate_march_task(option, output_dir)
