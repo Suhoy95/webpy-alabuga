@@ -3,8 +3,8 @@ from itertools import product
 from random import choice
 from os.path import join
 from pathlib import Path
+from shutil import make_archive
 
-from mako.template import Template
 from mako.lookup import TemplateLookup
 
 
@@ -450,6 +450,11 @@ def generate_march_task(option, output_dir):
         "mar_task_2.md",
     ])
 
+    make_archive(
+        join(output_dir, f"std{option['std_num']}"),
+        'zip',
+        std_output_dir,
+    )
 
 if __name__ == "__main__":
     # output_dir = join("feb", "module1")
