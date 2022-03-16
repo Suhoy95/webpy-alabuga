@@ -167,7 +167,10 @@ def download_html(src_url, dst_dir, student):
 
     html_path = join(dst_dir, f"{student}.html")
     with open(html_path, "w", encoding="utf8") as f:
-        html_text = std_html.content.decode('utf-8')
+        try:
+            html_text = std_html.content.decode('utf-8')
+        except UnicodeDecodeError:
+            html_text = std_html.content.decode('windows-1251')
         f.write(html_text)
     return html_path, BeautifulSoup(html_text, 'html.parser')
 
@@ -322,7 +325,7 @@ def print_results(ws, group, student, *results,):
 
 
 if __name__ == "__main__":
-    group = '115-2'
+    group = '114'
     group_html_dir = f'{group}/html'
 
     wb = Workbook()
