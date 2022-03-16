@@ -1,0 +1,25 @@
+<%inherit file="mar_base.html" />
+
+<%block name="title">
+    Авторизация - Bug-Трекер (${parent.title()})
+</%block>
+
+<%block name="main">
+<div class="row justify-content-center py-5">
+    <div class="text-center">
+        <form method="post" >
+            <div>
+                <label class="form-label">
+                    Ваш Никнейм <input name="username" type="text" class="form-control">
+                </label>
+            </div>
+            <div>
+                <label class="form-label">
+                    Пароль <input name="password" type="password" class="form-control">
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+    </div>
+</div>
+</%block>

@@ -1,0 +1,24 @@
+<%inherit file="mar_base.html" />
+
+<%block name="title">
+    Главная страница - Bug-Catcher (${parent.title()})
+</%block>
+
+<%block name="logo">Bug-catcher</%block>
+<%block name="nav"></%block>
+
+<%block name="main">
+<div>
+    <h3 class="text-center">Ты Выиграл! / Ты Проиграл!!!</h3>
+
+    <div class="alert alert-primary" role="alert">
+        Время в игре: MM:SS
+    </div>
+
+    <div class="alert alert-warning" role="alert">
+        Набрано баллов: 100-500
+    </div>
+    <div class="text-center">
+        <button class="btn-success fs-2 btn">Начать заново</button>
+    </div>
+</%block>

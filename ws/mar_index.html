@@ -1,0 +1,31 @@
+<%inherit file="mar_base.html" />
+
+<%block name="title">
+    Главная страница - Bug-Трекер (${parent.title()})
+</%block>
+
+<%block name="main">
+    <ul class="h3">
+        <li>Открытых Bug-Веток: 00000</li>
+        <li>Bug-Веток в работе: 00000</li>
+        <li>Закрытых Bug-Веток: 00000</li>
+    </ul>
+    <table class="table table-striped table-hover table-bordered border-dark">
+        <tr>
+            <th>Дата создания</th>
+            <th>Название</th>
+            <th>Пользователь</th>
+            <th>Статус</th>
+            <th>Категория</th>
+        </tr>
+        % for i in range(3):
+        <tr>
+            <td>дд.мм.гггг чч:мм</td>
+            <td><a href="${m1_show_path}">Название</a></td>
+            <td>Пользователь</td>
+            <td>Статус</td>
+            <td>Категория</td>
+        </tr>
+        %endfor
+    </table>
+</%block>
