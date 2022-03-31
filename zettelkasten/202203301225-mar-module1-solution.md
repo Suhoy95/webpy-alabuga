@@ -88,11 +88,16 @@
 
 ## Задача 6. По аналогии с Регистрацией сделать Аутентификацию пользователя.
 
-- [git-diff](https://gitlab.com/alabuga/firstyearweb/march-ws-1/-/commit/e02dad9a0cf468ff3bc7f6f5492906df5ea3a4e0)
+![](2022-03-31-09-23-46.png)
+![](2022-03-31-09-24-01.png)
 
-# Задача 7. POST /api/cart/<product_id> - Добавление товара в карзину
+# Задача 7. POST /api/cart/<product_id> - Добавление товара в корзину
 
-- [git-diff](https://gitlab.com/alabuga/firstyearweb/march-ws-1/-/commit/ba590abec33d11c175fe14c04716eef1fba67a42)
+![](2022-03-31-09-24-35.png)
+![](2022-03-31-09-24-53.png)
+![](2022-03-31-09-25-03.png)
+![](2022-03-31-09-25-14.png)
+![](2022-03-31-09-25-36.png)
 
 # Задача 8. Просмотр корзины
 
